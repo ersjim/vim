@@ -11,6 +11,7 @@ Plugin 'fatih/vim-go'
 Plugin 'tpope/vim-sensible.git'
 Plugin 'mg979/vim-visual-multi'
 Plugin 'puremourning/vimspector'
+Plugin 'dkprice/vim-easygrep'
 call vundle#end()         " required
 filetype plugin indent on " required
 
@@ -20,8 +21,39 @@ let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB', '
 " Run :VimspectorInstall to install these
 
 autocmd FileType go nnoremap <F5> :GoRun<CR>
+let NERDTreeQuitOnOpen=0
 nnoremap <F2> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
+inoremap <f2> <C-r>=system("date +%Y-%m-%d <bar> tr -d '\n'")<cr>
+set foldmethod=marker
+autocmd BufWritePost * !php -l <afile>
+au BufReadPost *.tpl set syntax=html
+au BufReadPost *.json set syntax=javascript
+augroup filetype javascript syntax=javascript
+
+let g:EasyGrepFileAssociations=expand('$HOME/.vim/bundle/vim-easygrep/plugin/EasyGrepFileAssociations')
+let g:EasyGrepMode=0
+let g:EasyGrepCommand=1
+let g:EasyGrepRecursive=1
+let g:EasyGrepSearchCurrentBufferDir=1
+let g:EasyGrepIgnoreCase=0
+let g:EasyGrepHidden=0
+let g:EasyGrepBinary=0
+let g:EasyGrepFilesToInclude=''
+let g:EasyGrepFilesToExclude='*.swp,*~'
+let g:EasyGrepAllOptionsInExplorer=1
+let g:EasyGrepWindow=0
+let g:EasyGrepReplaceWindowMode=0
+let g:EasyGrepOpenWindowOnMatch=1
+let g:EasyGrepEveryMatch=0
+let g:EasyGrepJumpToMatch=0
+let g:EasyGrepInvertWholeWord=0
+let g:EasyGrepPatternType='regex'
+let g:EasyGrepFileAssociationsInExplorer=0
+let g:EasyGrepExtraWarnings=0
+let g:EasyGrepOptionPrefix='<leader>vy'
+let g:EasyGrepReplaceAllPerFile=0
+let g:EasyGrepRoot='/home/eventrentalsystems/public_html'
 
 " nmap <Leader>db <Plug>VimspectorBreakpoints
 " nmap <F4> <Plug>VimspectorStop
