@@ -34,8 +34,26 @@ Plugin 'prabirshrestha/asyncomplete.vim'
 Plugin 'prabirshrestha/asyncomplete-lsp.vim'
 " :LspInstallServer in a file that is supported
 
+" Install FZF for finding files quickly
+" make sure you do this first:
+" brew install fzf bat ripgrep the_silver_searcher perl universal-ctags
+Plugin 'junegunn/fzf.vim'
+
+" Install color theme
+Plugin 'cocopon/iceberg.vim.git'
+Plugin 'nordtheme/vim'
+
+" Install airline for the bottom bar
+Plugin 'vim-airline/vim-airline.git'
+
+" Install which key (shows UI for leader mappings)
+Plugin 'liuchengxu/vim-which-key'
+
 call vundle#end()         " required
 filetype plugin indent on " required
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
+
 
 " CUSTOM CONFIGURATIONS
 set et ts=4 sts=4 sw=4 hlsearch ai nu rnu mouse=
@@ -46,9 +64,15 @@ au BufReadPost *.json set syntax=javascript
 augroup filetype javascript syntax=javascript
 syntax on
 autocmd FileType go nnoremap <F5> :GoRun<CR>
+colorscheme iceberg
+set background=dark
+
+" FZF CONFIGURATIONS
+set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
+nnoremap <leader>ff :call fzf#vim#files('.')<CR>
 
 " NERDTREE CONFIGURATIONS
-let NERDTreeQuitOnOpen=0
+" let NERDTreeQuitOnOpen=0
 nnoremap <F2> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 inoremap <f2> <C-r>=system("date +%Y-%m-%d <bar> tr -d '\n'")<cr>
@@ -76,7 +100,7 @@ let g:EasyGrepFileAssociationsInExplorer=0
 let g:EasyGrepExtraWarnings=0
 let g:EasyGrepOptionPrefix='<leader>vy'
 let g:EasyGrepReplaceAllPerFile=0
-let g:EasyGrepRoot='/home/eventrentalsystems/public_html'
+" let g:EasyGrepRoot='/home/eventrentalsystems/public_html'
 
 " DEBUGGING CONFIGURATIONS
 " let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB', 'vscode-php-debug' ]
@@ -112,8 +136,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
-    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -125,3 +149,71 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+" WHICH KEY CONFIGURATIONS
+let g:which_key_map = {}
+
+" Define the mappings in a dictionary
+let g:which_key_map = {}
+let g:which_key_map['w'] = {
+      \ 'name' : '+windows' ,
+      \ 'w' : ['<C-W>w'     , 'other-window']          ,
+      \ 'd' : ['<C-W>c'     , 'delete-window']         ,
+      \ '-' : ['<C-W>s'     , 'split-window-below']    ,
+      \ '|' : ['<C-W>v'     , 'split-window-right']    ,
+      \ '2' : ['<C-W>v'     , 'layout-double-columns'] ,
+      \ 'h' : ['<C-W>h'     , 'window-left']           ,
+      \ 'j' : ['<C-W>j'     , 'window-below']          ,
+      \ 'l' : ['<C-W>l'     , 'window-right']          ,
+      \ 'k' : ['<C-W>k'     , 'window-up']             ,
+      \ 'H' : ['<C-W>5<'    , 'expand-window-left']    ,
+      \ 'J' : [':resize +5' , 'expand-window-below']   ,
+      \ 'L' : ['<C-W>5>'    , 'expand-window-right']   ,
+      \ 'K' : [':resize -5' , 'expand-window-up']      ,
+      \ '=' : ['<C-W>='     , 'balance-window']        ,
+      \ 's' : ['<C-W>s'     , 'split-window-below']    ,
+      \ 'v' : ['<C-W>v'     , 'split-window-below']    ,
+      \ '?' : ['Windows'    , 'fzf-window']            ,
+      \ }
+
+" Vimspector mappings
+let g:which_key_map['<F5>'] = ['<Plug>VimspectorContinue', 'Vimspector Continue']
+let g:which_key_map['<F3>'] = ['<Plug>VimspectorStop', 'Vimspector Stop']
+let g:which_key_map['<F4>'] = ['<Plug>VimspectorRestart', 'Vimspector Restart']
+let g:which_key_map['<F6>'] = ['<Plug>VimspectorPause', 'Vimspector Pause']
+let g:which_key_map['<F9>'] = ['<Plug>VimspectorToggleBreakpoint', 'Vimspector Toggle Breakpoint']
+let g:which_key_map['<leader><F9>'] = ['<Plug>VimspectorToggleConditionalBreakpoint', 'Vimspector Toggle Conditional Breakpoint']
+let g:which_key_map['<F8>'] = ['<Plug>VimspectorAddFunctionBreakpoint', 'Vimspector Add Function Breakpoint']
+let g:which_key_map['<leader><F8>'] = ['<Plug>VimspectorRunToCursor', 'Vimspector Run To Cursor']
+let g:which_key_map['<F10>'] = ['<Plug>VimspectorStepOver', 'Vimspector Step Over']
+let g:which_key_map['<F11>'] = ['<Plug>VimspectorStepInto', 'Vimspector Step Into']
+let g:which_key_map['<F12>'] = ['<Plug>VimspectorStepOut', 'Vimspector Step Out']
+let g:which_key_map['<Leader>di'] = ['<Plug>VimspectorBalloonEval', 'Vimspector Balloon Eval']
+
+" xmap is similar to nmap but in visual mode
+let g:which_key_map['<Leader>di'] = ['<Plug>VimspectorBalloonEval', 'Vimspector Balloon Eval']
+
+" LSP mappings
+let g:which_key_map['<buffer>gd'] = ['<plug>(lsp-definition)', 'LSP Definition']
+let g:which_key_map['<buffer>gs'] = ['<plug>(lsp-document-symbol-search)', 'LSP Document Symbol Search']
+let g:which_key_map['<buffer>gS'] = ['<plug>(lsp-workspace-symbol-search)', 'LSP Workspace Symbol Search']
+let g:which_key_map['<buffer>gr'] = ['<plug>(lsp-references)', 'LSP References']
+let g:which_key_map['<buffer>gi'] = ['<plug>(lsp-implementation)', 'LSP Implementation']
+let g:which_key_map['<buffer>gt'] = ['<plug>(lsp-type-definition)', 'LSP Type Definition']
+let g:which_key_map['<buffer><leader>rn'] = ['<plug>(lsp-rename)', 'LSP Rename']
+let g:which_key_map['<buffer>[g'] = ['<plug>(lsp-previous-diagnostic)', 'LSP Previous Diagnostic']
+let g:which_key_map['<buffer>]g'] = ['<plug>(lsp-next-diagnostic)', 'LSP Next Diagnostic']
+let g:which_key_map['<buffer>K'] = ['<plug>(lsp-hover)', 'LSP Hover']
+let g:which_key_map['<buffer><expr><c-f>'] = ['lsp#scroll(+4)', 'LSP Scroll Down']
+let g:which_key_map['<buffer><expr><c-d>'] = ['lsp#scroll(-4)', 'LSP Scroll Up']
+
+" Register the mappings with vim-which-key
+call which_key#register('<leader>', 'g:which_key_map')
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+vnoremap <silent> <localleader> :<c-u>WhichKeyVisual  ','<CR>
+nnoremap <C-w> :<c-u>WhichKeyVisual 'C-w'<CR>
+" nmap g :<c-u>WhichKey 'g'<CR>
+" vmap g :<c-u>WhichKeyVisual 'g'<CR>
+
+set timeoutlen=500
