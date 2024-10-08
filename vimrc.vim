@@ -46,6 +46,9 @@ Plugin 'nordtheme/vim'
 " Install airline for the bottom bar
 Plugin 'vim-airline/vim-airline.git'
 
+" A bunch of colorschemes
+Plugin 'flazz/vim-colorschemes.git'
+
 " Install which key (shows UI for leader mappings)
 Plugin 'liuchengxu/vim-which-key'
 
@@ -64,7 +67,29 @@ au BufReadPost *.json set syntax=javascript
 augroup filetype javascript syntax=javascript
 syntax on
 autocmd FileType go nnoremap <F5> :GoRun<CR>
-colorscheme iceberg
+colorscheme mango " mild dark with bright orange and olive green
+" colorscheme meta5 " cyberpunk dark theme
+" colorscheme miko " really weird one, kinda unique
+" colorscheme midnight " kind of matrixy
+" colorscheme mizore " jean blue dark theme
+" colorscheme molokai_dark " ash grey with orange, red, and blue highlights
+" colorscheme monokai-pheonix " gunmetal grey with vibrant secondary highlights
+" colorscheme moody " mild, dark, subtle
+" colorscheme moonshine " ash, amber, chartreuse, very nice!
+" colorscheme mopkai " volcanic theme, moody and vibrant
+" colorscheme moss " like looking through the polished edge of laminate glass at the perfume display in Macy's
+" colorscheme mrkn256 " very HIGH contrast dark theme
+
+
+
+
+
+
+" colorscheme marklar " aqua green and orange
+" colorscheme maroloccio "purple blue yellow dark
+" colorscheme maui "orange blue dark
+"
+
 set background=dark
 
 " FZF CONFIGURATIONS
@@ -131,11 +156,11 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
     nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
     nmap <buffer> <leader>rn <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> K <plug>(lsp-hover)
+    " nmap <buffer> gt <plug>(lsp-type-definition)
     " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
     " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
@@ -212,7 +237,7 @@ call which_key#register('<leader>', 'g:which_key_map')
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 vnoremap <silent> <localleader> :<c-u>WhichKeyVisual  ','<CR>
-nnoremap <C-w> :<c-u>WhichKeyVisual 'C-w'<CR>
+" nnoremap <C-w> :<c-u>WhichKeyVisual 'C-w'<CR>
 " nmap g :<c-u>WhichKey 'g'<CR>
 " vmap g :<c-u>WhichKeyVisual 'g'<CR>
 
